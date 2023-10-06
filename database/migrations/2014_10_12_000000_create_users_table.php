@@ -32,7 +32,7 @@ return new class extends Migration
             'last_name' => 'Holmes',
             'email' => 'info@andyholmes.me',
             'email_verified_at' => Carbon::now(),
-            'password' => Hash::make('password'),
+            'password' => Hash::make('EKj.Co8DR4gdbt*dfBQryLrEYNA*'),
         ]);
     }
 
