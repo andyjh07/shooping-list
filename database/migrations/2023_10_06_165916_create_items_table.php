@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('cost');
-            $table->string('amount');
+            $table->string('quantity');
+            $table->string('store');
+            $table->string('aisle');
             $table->timestamps();
         });
     }

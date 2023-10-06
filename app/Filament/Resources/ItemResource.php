@@ -7,7 +7,12 @@ use App\Models\Item;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Repeater;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Model;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ItemResource\Pages;
@@ -28,8 +33,19 @@ class ItemResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name'),
-                TextInput::make('cost'),
-                TextInput::make('amount'),
+                TextInput::make('quantity'),
+                TextInput::make('cost')
+                    ->prefix('£'),
+                Select::make('store')
+                    ->searchable()
+                    ->options([
+                        'morrisons' => 'Morrison\'s',
+                        'food-warehouse' => 'Food Warehouse',
+                        'pets-at-home' => 'Pets at Home',
+                        'sainsburys' => 'Sainsburys',
+                    ])
+                    ->required(),
+                TextInput::make('aisle')->required(),
             ]);
     }
 
@@ -37,7 +53,15 @@ class ItemResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name'),
+                TextColumn::make('store')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'morrisons' => 'warning',
+                    })
+                    ->formatStateUsing(fn (Model $record) => Str::headline($record->store)),
+                TextColumn::make('aisle'),
+                TextColumn::make('cost')->prefix('£')
             ])
             ->filters([
                 //
