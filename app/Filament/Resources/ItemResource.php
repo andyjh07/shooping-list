@@ -44,6 +44,7 @@ class ItemResource extends Resource
                         'pets-at-home' => 'Pets at Home',
                         'sainsburys' => 'Sainsburys',
                     ])
+                    ->default('morrisons')
                     ->required(),
                 TextInput::make('aisle')->required(),
             ]);
@@ -57,7 +58,10 @@ class ItemResource extends Resource
                 TextColumn::make('store')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
-                        'morrisons' => 'warning',
+                        'morrisons' => 'yellow',
+                        'food-warehouse' => 'red',
+                        'pets-at-home' => 'green',
+                        'sainsburys' => 'orange',
                     })
                     ->formatStateUsing(fn (Model $record) => Str::headline($record->store)),
                 TextColumn::make('aisle'),
